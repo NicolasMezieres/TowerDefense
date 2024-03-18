@@ -20,144 +20,119 @@ body {
 .case {
   border: 1px solid black;
 }
-/*
-.road {
-  width: 1000px;
+
+.caseL2 {
+  background-image: url("../image/heart100.png");
+  background-position: center;
+  background-size: 49px 49px;
 }
-  .block {
-  position: absolute;
-  border: 4px solid black;
-  background-color: gray;
-  width: 50px;
-  height: 50px;
-}
+.caseB7,
+.caseF15,
+.caseB18,
 .borderTR {
-  border-bottom: 0;
-  border-left: 0;
+  border-top: 4px solid black;
+  border-right: 4px solid black;
+  background-color: gray;
 }
+.caseB1,
+.caseB2,
+.caseB3,
+.caseB4,
+.caseB5,
+.caseB6,
+.caseF6,
+.caseF5,
+.caseI5,
+.caseI6,
+.caseI7,
+.caseI8,
+.caseI9,
+.caseI10,
+.caseI11,
+.caseI12,
+.caseI13,
+.caseI14,
+.caseF14,
+.caseF13,
+.caseB13,
+.caseB14,
+.caseB15,
+.caseB16,
+.caseB17,
+.caseL17,
+.caseL16,
+.caseL15,
+.caseL14,
+.caseL13,
+.caseL12,
+.caseL11,
+.caseL10,
+.caseL9,
+.caseL8,
+.caseL7,
+.caseL6,
+.caseL5,
+.caseL4,
+.caseL3,
 .borderTB {
-  border-left: 0;
-  border-right: 0;
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+  background-color: gray;
 }
+.caseF4,
+.caseB12,
 .borderTL {
-  border-bottom: 0;
-  border-right: 0;
+  border-top: 4px solid black;
+  border-left: 4px solid black;
+  background-color: gray;
 }
+.caseF7,
+.caseI15,
+.caseL18,
 .borderBR {
-  border-top: 0;
-  border-left: 0;
+  border-bottom: 4px solid black;
+  border-right: 4px solid black;
+  background-color: gray;
 }
+.caseI4,
+.caseF12,
 .borderBL {
-  border-top: 0;
-  border-right: 0;
+  border-bottom: 4px solid black;
+  border-left: 4px solid black;
+  background-color: gray;
 }
+.caseC7,
+.caseD7,
+.caseE7,
+.caseG4,
+.caseH4,
+.caseH15,
+.caseG15,
+.caseE12,
+.caseD12,
+.caseC12,
+.caseC18,
+.caseD18,
+.caseE18,
+.caseF18,
+.caseG18,
+.caseH18,
+.caseI18,
+.caseJ18,
+.caseK18,
 .borderLR {
-  border-top: 0;
-  border-bottom: 0;
+  border-left: 4px solid black;
+  border-right: 4px solid black;
+  background-color: gray;
 }
 
-.block1 {
-  width: 300px;
-}
-.block2 {
-  border-left: 0;
-  border-bottom: 0;
-  left: 300px;
-}
-.block3 {
-  left: 296px;
-  top: 54px;
-  height: 150px;
-}
-.block4 {
-  top: 204px;
-  left: 300px;
-}
-.block5 {
-  width: 150px;
-  top: 200px;
-  left: 150px;
-}
-.block6 {
-  top: 200px;
-  left: 96px;
-}
-.block7 {
-  height: 100px;
-  top: 254px;
-  left: 96px;
-}
-.block8 {
-  top: 354px;
-  left: 96px;
-}
-.block9 {
-  width: 600px;
-  top: 350px;
-  left: 150px;
-}
-.block10 {
-  top: 354px;
-  left: 750px;
-}
-.block11 {
-  height: 100px;
-  top: 254px;
-  left: 746px;
-}
-.block12 {
-  top: 200px;
-  left: 750px;
-}
-.block13 {
-  width: 150px;
-  top: 200px;
-  left: 600px;
-}
-.block14 {
-  top: 204px;
-  left: 546px;
-}
-.block15 {
-  left: 546px;
-  top: 54px;
-  height: 150px;
-}
-.block16 {
-  left: 546px;
-}
-.block17 {
-  left: 600px;
-  width: 300px;
-}
-.block18 {
-  left: 900px;
-}
-.block19 {
-  left: 896px;
-  top: 54px;
-  height: 450px;
-}
-.block20 {
-  top: 504px;
-  left: 900px;
-}
-.block21 {
-  top: 500px;
-  left: 100px;
-  width: 800px;
-}*/
-.block21 img,
 .gold img {
   width: 50px;
   height: 50px;
 }
-.block21 img {
-  position: relative;
-  right: 50px;
-}
 .menu {
   position: absolute;
+  top: 0;
   right: 0;
   width: 30vw;
   height: 722px;
@@ -167,7 +142,7 @@ body {
 }
 .gold {
   position: absolute;
-  top: 0;
+
   right: 0;
   display: flex;
   align-items: center;
