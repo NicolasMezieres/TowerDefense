@@ -25,13 +25,20 @@ for (let i = 0; i < 13; i++) {
     grid.appendChild(cell);
   }
 }
+//Positionnement du chemin des monstres
+roadMapLvl1.forEach((nameClass) => {
+  nameClass[1].forEach((cell) => {
+    document.querySelector("." + cell).classList.add(nameClass[0]);
+  });
+});
+
 //Creation class mobs
 class mobs {
-  constructor(health, moveSpeed, damage) {
-    mobs.health = health;
+  constructor(life, moveSpeed, damage, img) {
+    mobs.life = life;
     mobs.moveSpeed = moveSpeed;
     mobs.damage = damage;
+    mobs.img = img;
   }
 }
-
-const laneTop = document.querySelector(".laneTop");
+const slime = new mobs(20, 1, 1, "../image/mobs/blueSlime.gif");

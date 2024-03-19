@@ -20,106 +20,46 @@ body {
 .case {
   border: 1px solid black;
 }
-
+.caseA1 {
+  background-image: url("../image/mobs/blueSlime.gif");
+  transform: rotateY(180deg);
+  background-size: cont;
+}
 .caseL2 {
   background-image: url("../image/heart100.png");
   background-position: center;
   background-size: 49px 49px;
 }
-.caseB7,
-.caseF15,
-.caseB18,
+
 .borderTR {
   border-top: 4px solid black;
   border-right: 4px solid black;
   background-color: gray;
 }
-.caseB1,
-.caseB2,
-.caseB3,
-.caseB4,
-.caseB5,
-.caseB6,
-.caseF6,
-.caseF5,
-.caseI5,
-.caseI6,
-.caseI7,
-.caseI8,
-.caseI9,
-.caseI10,
-.caseI11,
-.caseI12,
-.caseI13,
-.caseI14,
-.caseF14,
-.caseF13,
-.caseB13,
-.caseB14,
-.caseB15,
-.caseB16,
-.caseB17,
-.caseL17,
-.caseL16,
-.caseL15,
-.caseL14,
-.caseL13,
-.caseL12,
-.caseL11,
-.caseL10,
-.caseL9,
-.caseL8,
-.caseL7,
-.caseL6,
-.caseL5,
-.caseL4,
-.caseL3,
 .borderTB {
   border-top: 4px solid black;
   border-bottom: 4px solid black;
   background-color: gray;
 }
-.caseF4,
-.caseB12,
+
 .borderTL {
   border-top: 4px solid black;
   border-left: 4px solid black;
   background-color: gray;
 }
-.caseF7,
-.caseI15,
-.caseL18,
+
 .borderBR {
   border-bottom: 4px solid black;
   border-right: 4px solid black;
   background-color: gray;
 }
-.caseI4,
-.caseF12,
+
 .borderBL {
   border-bottom: 4px solid black;
   border-left: 4px solid black;
   background-color: gray;
 }
-.caseC7,
-.caseD7,
-.caseE7,
-.caseG4,
-.caseH4,
-.caseH15,
-.caseG15,
-.caseE12,
-.caseD12,
-.caseC12,
-.caseC18,
-.caseD18,
-.caseE18,
-.caseF18,
-.caseG18,
-.caseH18,
-.caseI18,
-.caseJ18,
-.caseK18,
+
 .borderLR {
   border-left: 4px solid black;
   border-right: 4px solid black;
