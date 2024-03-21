@@ -20,11 +20,11 @@ body {
 .case {
   border: 1px solid black;
 }
-.caseA1 {
+/* .caseA1 {
   background-image: url("../image/mobs/blueSlime.gif");
   transform: rotateY(180deg);
   background-size: cont;
-}
+} */
 .caseL2 {
   background-image: url("../image/heart100.png");
   background-position: center;
