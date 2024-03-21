@@ -72,21 +72,23 @@ class mobs {
       parseInt(creature.style.top) == parseInt(bounding[this.angle].top) ||
       parseInt(creature.style.left) == 7 + parseInt(bounding[this.angle].left)
     ) {
-      // parseInt(10 - bounding[i].top);
       this.angle++;
-      clearInterval(`intervalSlime${this.angle}`);
+      clearInterval(intervalSlimes[this.id]);
+      // si le nombre d'angle est plus grand ou égale à l'angle du prochain bord
       if (this.angle < bounding.length) {
-        creature.style.top = parseInt(creature.style.top) + 1 + "px";
+        creature.style.top = parseInt(creature.style.top) + 5 + "px";
         creature.style.left = parseInt(creature.style.left) + 1 + "px";
-        nextInterval();
+        nextInterval(this.id, intervalSlimes[this.id]);
       } else {
         console.log("fin du parcours");
         creature.remove();
       }
     } else {
+      creature.style.transform = "rotateY(0deg)";
       switch (roadMobLvl1[this.angle - 1][0]) {
         case "right": // de gauche vers la droite
           creature.style.left = parseInt(creature.style.left) + 1 + "px";
+          creature.style.transform = "rotateY(180deg)";
           break;
         case "left": // de droite vers la Gauche
           creature.style.left = parseInt(creature.style.left) - 1 + "px";
@@ -98,45 +100,24 @@ class mobs {
           creature.style.top = parseInt(creature.style.top) + 1 + "px";
           break;
         default:
-          console.log("fin du parcours");
           break;
       }
     }
   }
 }
-let intervalSlime1;
-let intervalSlime2;
-let intervalSlime3;
-let intervalSlime4;
-let intervalSlime5;
-let intervalSlime6;
-let intervalSlime7;
-let intervalSlime8;
-let intervalSlime9;
-let intervalSlime10;
-let intervalSlime11;
-let intervalSlime12;
-let intervalSlime13;
-let intervalSlime14;
-let intervalSlime15;
-let intervalSlime16;
-let intervalSlime17;
-let intervalSlime18;
-let intervalSlime19;
-let intervalSlime20;
+
 let intervalSlimes = [];
-for (let i = 0; i < 20; i++) {
-  intervalSlimes.push(`${intervalSlime}${i}`);
-}
+
 for (let i = 0; i < 20; i++) {
   setTimeout(() => {
     const slime = new mobs(20, 1, "./image/mobs/blueSlime.gif", "slime", i);
     slimes.push(slime);
-    intervalSlime.push(slime.name);
+    intervalSlimes.push(slime.name + slime.id);
+    console.log("test", intervalSlimes[i]);
     slime.display();
     slime.positionStart();
-    nextInterval(i, intervalSlime[i]);
-  }, 5000 * i);
+    nextInterval(i);
+  }, 2000 * i);
 }
 // setTimeout(() => {
 //   nextInterval();
@@ -144,5 +125,5 @@ for (let i = 0; i < 20; i++) {
 function nextInterval(i) {
   intervalSlimes[i] = setInterval(() => {
     slimes[i].move();
-  }, 20);
+  }, 17);
 }

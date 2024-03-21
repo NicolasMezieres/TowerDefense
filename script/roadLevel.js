@@ -86,6 +86,6 @@ const roadMobLvl1 = [
   ["right", "caseB12"],
   ["bottom", "caseB18"],
   ["left", "caseL18"],
-  ["right", "caseL2"],
+  ["default", "caseL2"],
 ];
 //initialisation de tous les interval
