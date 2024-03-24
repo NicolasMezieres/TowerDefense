@@ -1,10 +1,13 @@
 const body = document.querySelector("body");
 const game = document.querySelector(".game");
 const grid = document.querySelector(".grid");
-
+const gold = document.querySelector(".money");
 const gameOver = document.querySelector(".gameOver");
 const buyRedTurret = document.querySelector(".buyRedTurret");
+const priceTurret = document.querySelector(".priceTurret");
 const caseSelect = document.createElement("div");
+const menuStart = document.querySelector(".menuStart");
+const buttonStart = document.querySelector(".start");
 let caseSelected;
 caseSelect.classList.add("caseSelect");
 const turretArray = [];
@@ -13,6 +16,7 @@ let turretNumber = 0;
 let isTurret = false;
 let missiles = 0;
 let mobDead = 0;
+let lvl = 1;
 const slimes = [];
 // tableau de variable pour chaque interval différent
 const intervalSlimes = [];
@@ -34,15 +38,7 @@ const arrayRows = [
   "L",
   "M",
 ];
-for (let i = 0; i < 13; i++) {
-  //nombre de rows
-  for (let j = 0; j < 20; j++) {
-    //nombre de columns 13
-    let cell = document.createElement("div");
-    cell.classList.add(`case${arrayRows[i]}${j + 1}`, "case");
-    grid.appendChild(cell);
-  }
-}
+
 class roadMap {
   constructor(map, roadMob) {
     this.mapRoad = map;
@@ -61,21 +57,16 @@ class roadMap {
     }
   }
 }
-//creation de la map ainsi du chemin des monstre
-let mapRoadLvl1 = new roadMap(roadMapLvl1, roadMobLvl1);
-mapRoadLvl1.initGround();
 
 //Création du joueur
 class player extends roadMap {
   constructor(map, roadMob, life, money, image) {
     super(map, roadMob);
-    console.log(map, roadMob);
     this.life = life;
     this.money = money;
     this.image = image;
   }
   lifePosition() {
-    console.log(`${this.roadMob[this.roadMob.length - 1][1]}`);
     const life = document.querySelector(
       `.${this.roadMob[this.roadMob.length - 1][1]}`
     );
@@ -86,15 +77,19 @@ class player extends roadMap {
     switch (this.life) {
       case 4:
         life.style.backgroundImage = "url('./image/heart75.png')";
+        body.style.backgroundColor = "#08cc0a";
         break;
       case 3:
         life.style.backgroundImage = "url('./image/heart50.png')";
+        body.style.backgroundColor = "yellow";
         break;
       case 2:
         life.style.backgroundImage = "url('./image/heart25.png')";
+        body.style.backgroundColor = "orange";
         break;
       case 1:
         life.style.backgroundImage = "url('./image/heart1.png')";
+        body.style.backgroundColor = "red";
         break;
       default:
         life.style.backgroundImage = "url('./image/heart0.png')";
@@ -109,15 +104,6 @@ class player extends roadMap {
     }
   }
 }
-const player1 = new player(
-  roadMapLvl1,
-  roadMobLvl1,
-  5,
-  100,
-  "./image/heart100.png"
-);
-//placement de la vie du joueur
-player1.lifePosition();
 //Création des tourrelles
 class turret {
   constructor(damage, price, id, cell, color) {
@@ -127,6 +113,7 @@ class turret {
     this.cell = cell;
     this.colorTurret = color;
   }
+  //Spawn Turret
   display() {
     const newTurret = document.createElement("div");
     newTurret.classList.add(`turret${this.id}`, `${this.colorTurret}`);
@@ -135,33 +122,34 @@ class turret {
       this.ennemie();
     }, 1000);
   }
+  //turret detect and attack
   ennemie() {
     const tourelle = document.querySelector(`.turret${this.id}`);
     const tourelleBounding = tourelle.getBoundingClientRect();
-    const cibles = document.querySelectorAll(".mob");
-    for (let i = 0; i < cibles.length; i++) {
-      if (slimes[i + mobDead].life > 0) {
-        let cibleBounding = cibles[i].getBoundingClientRect();
-        if (
-          cibleBounding.bottom - 25 <= tourelleBounding.bottom + 100 &&
-          cibleBounding.top + 25 >= tourelleBounding.top - 100 &&
-          cibleBounding.right + 25 >= tourelleBounding.right - 100 &&
-          cibleBounding.left - 25 <= tourelleBounding.left + 100
-        ) {
-          const mob = document.querySelector(
-            `.life${slimes[i + mobDead].name}${i + mobDead}`
-          );
-          missiles++;
-          const missile = new projectile(this.damage, missiles);
-          missile.display(tourelleBounding, cibles[i]);
-          setTimeout(() => {
-            slimes[i + mobDead].life -= this.damage;
-            slimes[i + mobDead].isAlive();
+    for (let i = 0; i < 20; i++) {
+      if (slimes[i]?.life > 0) {
+        let cible = document.querySelector(`.${slimes[i].name}${i}`);
+        let cibleBounding = cible?.getBoundingClientRect();
+        // let cibleBounding = cibles[i].getBoundingClientRect();
+        if (typeof cibleBounding != "undefined") {
+          if (
+            cibleBounding.bottom - 25 <= tourelleBounding.bottom + 100 &&
+            cibleBounding.top + 25 >= tourelleBounding.top - 100 &&
+            cibleBounding.right + 25 >= tourelleBounding.right - 100 &&
+            cibleBounding.left - 25 <= tourelleBounding.left + 100
+          ) {
+            const mob = document.querySelector(`.life${slimes[i].name}${i}`);
+            missiles++;
+            const missile = new projectile(this.damage, missiles);
+            missile.display(tourelleBounding, cible);
+            slimes[i].life -= this.damage;
+            slimes[i].isAlive();
+            setTimeout(() => {
+              mob.style.width = slimes[i].life + "px";
+            }, 400);
 
-            mob.style.width = slimes[i + mobDead]?.life + "px";
-          }, 400);
-
-          return;
+            return;
+          }
         }
       }
     }
@@ -173,6 +161,7 @@ class projectile extends turret {
     super(damage);
     this.id = id;
   }
+  //apparition du projectile
   display(turret, target) {
     const missile = document.createElement("div");
     missile.classList.add("missile", `missile${missiles}`);
@@ -195,20 +184,19 @@ class projectile extends turret {
 }
 //Creation class mobs
 class mobs {
-  constructor(life, damage, image, name, id) {
+  constructor(life, damage, image, name, id, money) {
     this.life = life;
     this.damage = damage;
     this.image = image;
     this.name = name;
     this.id = id;
     this.angle = 1;
+    this.money = money;
   }
-
+  //spawwn mob
   display() {
     const creature = document.createElement("div");
-
     creature.classList.add("mob", `${this.name}${this.id}`);
-    // creature.src = this.image;
     creature.style.backgroundImage = `url('${this.image}')`;
     creature.style.display = "grid";
     const creatureLife = document.createElement("div");
@@ -227,7 +215,6 @@ class mobs {
     creature.style.left = bounding[0].left + "px";
     //roadMobLvl1.length;
   }
-
   move() {
     const creature = document.querySelector(`.${this.name}${this.id}`);
     if (
@@ -270,24 +257,77 @@ class mobs {
   }
   isAlive() {
     const creature = document.querySelector(`.${this.name}${this.id}`);
-    if (this.life <= 0) {
+    console.log(this.life);
+    if (this.life == 0) {
       mobDead++;
-      creature.remove();
+      gold.innerText = parseInt(gold.innerText) + this.money;
+      creature.style.backgroundImage = `url('./image/mobs/death${this.name}.gif')`;
+      setTimeout(() => {
+        creature.remove();
+        delete slimes[this.id];
+      }, 500);
       clearInterval(intervalSlimes[this.id]);
     }
   }
 }
-
-for (let i = 0; i < 3; i++) {
-  setTimeout(() => {
-    const slime = new mobs(20, 1, "./image/mobs/blueSlime.gif", "slime", i);
-    slimes.push(slime);
-    intervalSlimes.push(slime.name + slime.id);
-    slime.display();
-    slime.positionStart();
-    nextInterval(i);
-  }, 2000 * i); //2000
+//appuie sur le bouton Start
+buttonStart.addEventListener("click", () => {
+  menuStart.style.opacity = 0;
+  gridGround();
+  guideline();
+  heartPlayer();
+  wave();
+});
+//Creation de la grille du jeu
+function gridGround() {
+  for (let i = 0; i < 13; i++) {
+    //nombre de rows
+    for (let j = 0; j < 20; j++) {
+      //nombre de columns 13
+      let cell = document.createElement("div");
+      cell.classList.add(`case${arrayRows[i]}${j + 1}`, "case");
+      grid.appendChild(cell);
+    }
+  }
 }
+//Mise en place du chemin des monstres
+function guideline() {
+  let mapRoadLvl1 = new roadMap(roadMapLvl1, roadMobLvl1);
+  mapRoadLvl1.initGround();
+}
+//Mise en place du coeur du joueur
+function heartPlayer() {
+  const player1 = new player(
+    roadMapLvl1,
+    roadMobLvl1,
+    5,
+    100,
+    "./image/heart100.png"
+  );
+  //placement de la vie du joueur
+  player1.lifePosition();
+}
+// Vague de monstre lancer
+function wave() {
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
+      const slime = new mobs(
+        15,
+        1,
+        "./image/mobs/blueSlime.gif",
+        "blueSlime",
+        i,
+        2
+      );
+      slimes.push(slime);
+      intervalSlimes.push(slime.name + slime.id);
+      slime.display();
+      slime.positionStart();
+      nextInterval(i);
+    }, 2000 * i); //2000
+  }
+}
+
 function nextInterval(i) {
   intervalSlimes[i] = setInterval(() => {
     slimes[i].move();
@@ -303,11 +343,6 @@ grid.childNodes.forEach((element) => {
     element.addEventListener("click", () => {
       element.appendChild(caseSelect);
       caseSelected = element;
-      console.log(caseSelected);
-      // const defense = new turret(1, 25, turretNumber, element);
-      // defense.display();
-      // turretNumber++;
-      // element.classList.add("caseTurret");
     });
   }
 });
@@ -317,13 +352,17 @@ function reStart() {
 buyRedTurret.addEventListener("click", () => {
   if (
     typeof caseSelected != "undefined" &&
-    !caseSelected.classList.contains("caseTurret")
+    !caseSelected.classList.contains("caseTurret") &&
+    parseInt(gold.innerText) >= parseInt(priceTurret.innerText)
   ) {
+    gold.innerText -= priceTurret.innerText;
     turretNumber++;
     const defense = new turret(1, 25, turretNumber, caseSelected, "redTurret");
     defense.display();
     caseSelected.classList.add("caseTurret");
   } else {
-    console.log("tu n'as rien selectionner ou tu as déja une tourelle ignare");
+    console.log(
+      "tu n'as rien selectionner ou tu as déja une tourelle ignare à moins que tu sois pauvre"
+    );
   }
 });

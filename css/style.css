@@ -6,6 +6,60 @@ body {
   background-color: green;
   overflow: hidden;
   transition: background-color 2s;
+  user-select: none;
+}
+.menuStart {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  row-gap: 100px;
+  background-image: url("../image/backgroundMenu.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: opacity 3s;
+}
+.menuStart img {
+  width: 300px;
+  height: auto;
+}
+.menuStart-buttons {
+  display: flex;
+  align-items: center;
+  column-gap: 200px;
+}
+.menuStart .start {
+  display: inline-block;
+  font-size: 32px;
+  color: black;
+  border: 2px solid black;
+  padding: 2px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.menuStart .start:hover {
+  border-color: red;
+  color: red;
+}
+.menuStart .start:active,
+.menuStart .rules:active {
+  border: 2px inset darkred;
+}
+.menuStart .rules {
+  background-image: url("../image/rules.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 43px;
+  border: 2px solid black;
+}
+.menuStart .rules:hover {
+  border-color: red;
+  background-color: red;
 }
 .game {
   position: relative;
@@ -80,7 +134,7 @@ body {
   width: 30vw;
   height: 722px;
   border: 1px solid black;
-  background: url("../image/backgroundMenu.jpg");
+  background: url("../image/backgroundShop.jpg");
   background-size: contain;
 }
 .gold {
@@ -177,6 +231,7 @@ body {
   transition: 0.29s;
   width: 10px;
   height: 10px;
-  background-color: black;
+  background-color: gray;
+  border-radius: 50%;
   z-index: 1;
 }
