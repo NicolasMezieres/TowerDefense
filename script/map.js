@@ -257,7 +257,6 @@ class mobs {
   }
   isAlive() {
     const creature = document.querySelector(`.${this.name}${this.id}`);
-    console.log(this.life);
     if (this.life == 0) {
       mobDead++;
       gold.innerText = parseInt(gold.innerText) + this.money;
@@ -273,10 +272,12 @@ class mobs {
 //appuie sur le bouton Start
 buttonStart.addEventListener("click", () => {
   menuStart.style.opacity = 0;
+  menuStart.style.zIndex = -1;
   gridGround();
   guideline();
   heartPlayer();
   wave();
+  selectCase();
 });
 //Creation de la grille du jeu
 function gridGround() {
@@ -333,19 +334,22 @@ function nextInterval(i) {
     slimes[i].move();
   }, 17); //17
 }
-grid.childNodes.forEach((element) => {
-  if (
-    element.classList.contains("case") &&
-    !element.classList.contains("road") &&
-    !element.classList.contains("caseTurret") &&
-    !element.classList.contains("life")
-  ) {
-    element.addEventListener("click", () => {
-      element.appendChild(caseSelect);
-      caseSelected = element;
-    });
-  }
-});
+//Mise en place de la possibiler de selectionner une case
+function selectCase() {
+  grid.childNodes.forEach((element) => {
+    if (
+      element.classList.contains("case") &&
+      !element.classList.contains("road") &&
+      !element.classList.contains("caseTurret") &&
+      !element.classList.contains("life")
+    ) {
+      element.addEventListener("click", () => {
+        element.appendChild(caseSelect);
+        caseSelected = element;
+      });
+    }
+  });
+}
 function reStart() {
   location.reload();
 }
