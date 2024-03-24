@@ -8,6 +8,7 @@ const priceTurret = document.querySelector(".priceTurret");
 const caseSelect = document.createElement("div");
 const menuStart = document.querySelector(".menuStart");
 const buttonStart = document.querySelector(".start");
+const timer = document.querySelector(".timer");
 let caseSelected;
 caseSelect.classList.add("caseSelect");
 const turretArray = [];
@@ -276,7 +277,10 @@ buttonStart.addEventListener("click", () => {
   gridGround();
   guideline();
   heartPlayer();
-  wave();
+  timerBeforeWave();
+  setTimeout(() => {
+    wave();
+  }, parseInt(timer.innerText) * 1000);
   selectCase();
 });
 //Creation de la grille du jeu
@@ -352,6 +356,16 @@ function selectCase() {
 }
 function reStart() {
   location.reload();
+}
+function timerBeforeWave() {
+  for (let i = 0; i < parseInt(timer.innerText); i++) {
+    setTimeout(() => {
+      timer.innerHTML--;
+      if (parseInt(timer.innerText) == 0) {
+        timer.style.visibility = "hidden";
+      }
+    }, 1000 * (i + 1));
+  }
 }
 buyRedTurret.addEventListener("click", () => {
   if (
