@@ -2,12 +2,14 @@ body {
   margin: 0;
   width: 100vw;
   height: 100vh;
-  background-color: green;
   background-repeat: repeat;
+  background-color: green;
   overflow: hidden;
+  transition: background-color 2s;
 }
 .game {
   position: relative;
+  transition: opacity 2s;
 }
 
 .grid {
@@ -20,12 +22,13 @@ body {
 .case {
   border: 1px solid black;
 }
-/* .caseA1 {
-  background-image: url("../image/mobs/blueSlime.gif");
-  transform: rotateY(180deg);
-  background-size: cont;
-} */
-.caseL2 {
+.case:hover {
+  background-color: yellow;
+}
+.case:active {
+  border: 5px inset black;
+}
+.life {
   background-image: url("../image/heart100.png");
   background-position: center;
   background-size: 49px 49px;
@@ -92,4 +95,88 @@ body {
   font-size: 26px;
   border-radius: 30px;
   width: 100px;
+}
+.shop {
+  margin-top: 200px;
+}
+.turretRed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.turretRed .redTurret {
+  position: relative;
+  border: 1px solid black;
+  margin-right: 50px;
+}
+.priceTurret {
+  display: contents;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+.priceTurret::after {
+  content: "";
+  background-image: url(../image/money.png);
+  margin-right: 50px;
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+}
+.price {
+  width: 50px;
+  height: 50px;
+  margin-right: 50px;
+}
+.gameOver {
+  position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 200px);
+  width: 400px;
+  height: 200px;
+  font-size: 32px;
+  text-align: center;
+  color: darkred;
+  border: 1px solid white;
+  visibility: hidden;
+}
+.gameOver button {
+  width: 100px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px inset gray;
+}
+.gameOver button:active {
+  border: 5px inset black;
+}
+.caseTurret {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.redTurret {
+  position: absolute;
+  background-color: red;
+  width: 40px;
+  height: 40px;
+}
+.caseSelect {
+  width: 46px;
+  height: 46px;
+  border: 2px solid yellow;
+}
+
+.mob {
+  display: grid;
+  position: absolute;
+  width: 36px;
+  height: 42px;
+}
+.missile {
+  position: absolute;
+  transition: 0.29s;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  z-index: 1;
 }
