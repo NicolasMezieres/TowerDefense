@@ -11,6 +11,7 @@ const buttonStart = document.querySelector(".start");
 const timer = document.querySelector(".timer");
 const stageNumber = document.querySelector(".stageCounter");
 const waveNumber = document.querySelector(".waveCounter");
+const victory = document.querySelector(".victory");
 let caseSelected;
 let childNodesGrid;
 caseSelect.classList.add("caseSelect");
@@ -361,7 +362,14 @@ function wave() {
   }
   for (let i = 0; i < 20; i++) {
     setTimeout(() => {
-      const slime = new mobs(14 * waveCounter, 1, source, name, i, 4);
+      const slime = new mobs(
+        14 * waveCounter,
+        1,
+        source,
+        name,
+        i,
+        2 + 1 * waveCounter + 1 * stageCounter
+      );
       slimes.push(slime);
       intervalSlimes.push(slime.name + slime.id);
       slime.display();
@@ -430,6 +438,7 @@ function timerBeforeWave() {
 function endWave() {
   if (mobDead == 20) {
     console.log(stageCounter);
+    timer.innerText = 5;
     waveCounter++;
     if (waveCounter > 4) {
       waveCounter = 0;
@@ -439,7 +448,7 @@ function endWave() {
     waveNumber.innerText = "Wave " + waveCounter;
     clear();
     mobDead = 0;
-    timer.innerText = 5;
+
     timer.style.visibility = "visible";
     timerBeforeWave();
     setTimeout(() => {
@@ -455,7 +464,6 @@ function endStage() {
     `.${roadMobLvl[stageCounter - 2][roadMobLvl[1].length - 1][1]}`
   ).style.backgroundImage = "";
   gold.innerText = 100;
-  timer.innerText = 15;
   //retire toutes les tourelles
   let allTurret = document.querySelectorAll(".redTurret");
   allTurret.forEach((element) => {
@@ -478,8 +486,14 @@ function endStage() {
     guideline();
     heartPlayer();
     selectCase();
+    body.style.backgroundColor = "green";
+    timer.innerText = 15;
     endWave();
+
     stageNumber.innerText = "Stage " + stageCounter;
+  } else {
+    victory.style.opacity = "1";
+    victory.style.zIndex = "1";
   }
 }
 function removeRoad() {
