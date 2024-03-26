@@ -9,7 +9,10 @@ const caseSelect = document.createElement("div");
 const menuStart = document.querySelector(".menuStart");
 const buttonStart = document.querySelector(".start");
 const timer = document.querySelector(".timer");
+const stageNumber = document.querySelector(".stageCounter");
+const waveNumber = document.querySelector(".waveCounter");
 let caseSelected;
+let childNodesGrid;
 caseSelect.classList.add("caseSelect");
 const turretArray = [];
 const turrets = [];
@@ -17,10 +20,15 @@ let turretNumber = 0;
 let isTurret = false;
 let missiles = 0;
 let mobDead = 0;
+let player1;
 let lvl = 1;
+let waveCounter = 1;
+let stageCounter = 1;
+const test = [];
 const slimes = [];
 // tableau de variable pour chaque interval différent
 const intervalSlimes = [];
+const intervalTurret = [];
 const bounding = []; //enplacement de tous les angles du chemin
 const mobMove = [];
 //Création de la grille de jeu
@@ -71,6 +79,7 @@ class player extends roadMap {
     const life = document.querySelector(
       `.${this.roadMob[this.roadMob.length - 1][1]}`
     );
+    console.log(life);
     life.classList.add("life");
   }
   isAlive() {
@@ -91,9 +100,14 @@ class player extends roadMap {
       case 1:
         life.style.backgroundImage = "url('./image/heart1.png')";
         body.style.backgroundColor = "red";
+        document.querySelectorAll(".redTurret").forEach((element) => {
+          element.style.backgroundColor = "black";
+        });
+
         break;
       default:
         life.style.backgroundImage = "url('./image/heart0.png')";
+        timer.style.display = "none";
         break;
     }
     if (this.life <= 0) {
@@ -119,9 +133,10 @@ class turret {
     const newTurret = document.createElement("div");
     newTurret.classList.add(`turret${this.id}`, `${this.colorTurret}`);
     this.cell.appendChild(newTurret);
-    setInterval(() => {
+    turret[this.id] = setInterval(() => {
       this.ennemie();
     }, 1000);
+    intervalTurret.push(turret[this.id]);
   }
   //turret detect and attack
   ennemie() {
@@ -213,7 +228,7 @@ class mobs {
   positionStart() {
     const creature = document.querySelector(`.${this.name}${this.id}`);
     creature.style.top = bounding[0].top + 4 + "px";
-    creature.style.left = bounding[0].left + "px";
+    creature.style.left = bounding[0].left + 6 + "px";
     //roadMobLvl1.length;
   }
   move() {
@@ -234,10 +249,13 @@ class mobs {
         player1.life--;
         player1.isAlive();
         creature.remove();
+        mobDead++;
+        gold.innerText = parseInt(gold.innerText) + this.money;
+        endWave();
       }
     } else {
       creature.style.transform = "rotateY(0deg)";
-      switch (roadMobLvl1[this.angle - 1][0]) {
+      switch (roadMobLvl[stageCounter - 1][this.angle - 1][0]) {
         case "right": // de gauche vers la droite
           creature.style.left = parseInt(creature.style.left) + 1 + "px";
           creature.style.transform = "rotateY(180deg)";
@@ -258,13 +276,14 @@ class mobs {
   }
   isAlive() {
     const creature = document.querySelector(`.${this.name}${this.id}`);
-    if (this.life == 0) {
+    if (this.life <= 0) {
       mobDead++;
       gold.innerText = parseInt(gold.innerText) + this.money;
       creature.style.backgroundImage = `url('./image/mobs/death${this.name}.gif')`;
       setTimeout(() => {
         creature.remove();
         delete slimes[this.id];
+        endWave();
       }, 500);
       clearInterval(intervalSlimes[this.id]);
     }
@@ -297,14 +316,18 @@ function gridGround() {
 }
 //Mise en place du chemin des monstres
 function guideline() {
-  let mapRoadLvl1 = new roadMap(roadMapLvl1, roadMobLvl1);
-  mapRoadLvl1.initGround();
+  let mapRoadLvl = new roadMap(
+    roadMapLvl[stageCounter - 1],
+    roadMobLvl[stageCounter - 1]
+  );
+  mapRoadLvl.initGround();
 }
 //Mise en place du coeur du joueur
 function heartPlayer() {
-  const player1 = new player(
-    roadMapLvl1,
-    roadMobLvl1,
+  console.log(stageCounter);
+  player1 = new player(
+    roadMapLvl[stageCounter - 1],
+    roadMobLvl[stageCounter - 1],
     5,
     100,
     "./image/heart100.png"
@@ -317,12 +340,12 @@ function wave() {
   for (let i = 0; i < 20; i++) {
     setTimeout(() => {
       const slime = new mobs(
-        15,
+        14 * waveCounter,
         1,
         "./image/mobs/blueSlime.gif",
         "blueSlime",
         i,
-        2
+        4
       );
       slimes.push(slime);
       intervalSlimes.push(slime.name + slime.id);
@@ -354,6 +377,28 @@ function selectCase() {
     }
   });
 }
+function removeEventSelectCase() {
+  grid.childNodes.forEach((element) => {
+    if (
+      element.classList.contains("case") &&
+      !element.classList.contains("road") &&
+      !element.classList.contains("caseTurret") &&
+      !element.classList.contains("life")
+    ) {
+      element.removeEventListener("click", () => {
+        element.appendChild(caseSelect);
+        caseSelected = element;
+      });
+    }
+  });
+}
+
+function addEvent() {
+  test.forEach((element) => {
+    element.appendChild(caseSelect);
+    caseSelected = element;
+  });
+}
 function reStart() {
   location.reload();
 }
@@ -365,6 +410,98 @@ function timerBeforeWave() {
         timer.style.visibility = "hidden";
       }
     }, 1000 * (i + 1));
+  }
+}
+function endWave() {
+  if (mobDead == 20) {
+    console.log(stageCounter);
+    waveCounter++;
+    if (waveCounter > 4) {
+      waveCounter = 0;
+      endStage();
+      return;
+    }
+    waveNumber.innerText = "Wave " + waveCounter;
+    clear();
+    mobDead = 0;
+    timer.innerText = 5;
+    timer.style.visibility = "visible";
+    timerBeforeWave();
+    setTimeout(() => {
+      wave();
+    }, parseInt(timer.innerText) * 1000);
+  }
+}
+function endStage() {
+  stageCounter++;
+  waveNumber.innerText = "Wave" + waveCounter;
+  document.querySelector(".life").classList.remove("life");
+  document.querySelector(
+    `.${roadMobLvl[stageCounter - 2][roadMobLvl[1].length - 1][1]}`
+  ).style.backgroundImage = "";
+  gold.innerText = 100;
+  timer.innerText = 15;
+  //retire toutes les tourelles
+  let allTurret = document.querySelectorAll(".redTurret");
+  allTurret.forEach((element) => {
+    element.classList.remove("redTurret");
+  });
+  let allcasesTurret = document.querySelectorAll(".caseTurret");
+  allcasesTurret.forEach((element) => {
+    element.classList.remove("caseTurret");
+  });
+  //retire la route des monstres
+  for (let i = 0; i < 12; i++) {
+    bounding.splice(0, 1);
+  }
+  clearIntervalTurret();
+  removeEventSelectCase();
+  document.querySelector(".turretRed div").classList.add("redTurret");
+  console.log(stageCounter, roadMapLvl.length);
+  if (stageCounter <= roadMapLvl.length) {
+    removeRoad();
+    guideline();
+    heartPlayer();
+    selectCase();
+    endWave();
+    stageNumber.innerText = "Stage " + stageCounter;
+  }
+}
+function removeRoad() {
+  let removeRoad = [
+    [document.querySelectorAll(".borderTB"), "borderTB"],
+    [document.querySelectorAll(".borderTR"), "borderTR"],
+    [document.querySelectorAll(".borderTL"), "borderTL"],
+    [document.querySelectorAll(".borderBR"), "borderBR"],
+    [document.querySelectorAll(".borderBL"), "borderBL"],
+    [document.querySelectorAll(".borderLR"), "borderLR"],
+    [document.querySelectorAll(".life"), "life"],
+  ];
+  removeRoad.forEach((array) => {
+    array[0].forEach((road) => {
+      road.classList.remove(`${array[1]}`);
+    });
+  });
+  let allRoad = document.querySelectorAll(".road");
+  allRoad.forEach((element) => {
+    element.classList.remove("road");
+  });
+}
+function clearIntervalTurret() {
+  let intervalNumber = intervalTurret.length;
+  for (let i = 0; i < intervalNumber; i++) {
+    clearInterval(intervalTurret[i]);
+  }
+  for (let i = 0; i < intervalNumber; i++) {
+    intervalTurret.splice(0, 1);
+  }
+}
+function clear() {
+  for (let i = 0; i < 20; i++) {
+    intervalSlimes.splice(0, 1);
+  }
+  for (let i = 0; i < 20; i++) {
+    slimes.splice(0, 1);
   }
 }
 buyRedTurret.addEventListener("click", () => {

@@ -130,10 +130,6 @@ body {
   background-color: gray;
 }
 
-.gold img {
-  width: 50px;
-  height: 50px;
-}
 .menu {
   position: absolute;
   top: 0;
@@ -143,19 +139,28 @@ body {
   border: 1px solid black;
   background: url("../image/backgroundShop.jpg");
   background-size: contain;
+  font-size: 26px;
+  color: lightgray;
+  font-weight: 700;
+}
+.menuInfo {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  column-gap: 100px;
 }
 .gold {
   position: absolute;
-
   right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: lightgray;
-  font-weight: 700;
-  font-size: 26px;
   border-radius: 30px;
   width: 100px;
+}
+.gold img {
+  width: 50px;
+  height: 50px;
 }
 .shop {
   margin-top: 200px;
