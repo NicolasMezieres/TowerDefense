@@ -1,3 +1,6 @@
 But du jeu:
--Survivre au vague ennemie en ne laissant aucun ennemie s'échapper.
--Vous avez 5 vie, 1 par ennemie qui s'échappe.
+-Empecher les créature d'atteindre votre coeur.
+-Si 5 créatures atteigne votre coeur, vous perdez la partie.
+-Vous pouvez selectionner des case et, si elle sont disponible vous pouvez y placer des carré rouge qui défendrons votre coeur en échange de 20 coins.
+-Les carrées rouges attaque toutes les secondes à 2 case de distance dans toutes les directions.
+-Les carrées rouges on pour priorité d'attaque les créatures les plus proches du coeur.
