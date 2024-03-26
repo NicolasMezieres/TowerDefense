@@ -337,16 +337,31 @@ function heartPlayer() {
 }
 // Vague de monstre lancer
 function wave() {
+  let source;
+  let name;
+  switch (waveCounter) {
+    case 1:
+      name = "blueSlime";
+      source = "./image/mobs/blueSlime.gif";
+      break;
+    case 2:
+      name = "greenSlime";
+      source = "./image/mobs/greenSlime.gif";
+      break;
+    case 3:
+      name = "yellowSlime";
+      source = "./image/mobs/yellowSlime.gif";
+      break;
+    case 4:
+      name = "redSlime";
+      source = "./image/mobs/redSlime.gif";
+      break;
+    default:
+      break;
+  }
   for (let i = 0; i < 20; i++) {
     setTimeout(() => {
-      const slime = new mobs(
-        14 * waveCounter,
-        1,
-        "./image/mobs/blueSlime.gif",
-        "blueSlime",
-        i,
-        4
-      );
+      const slime = new mobs(14 * waveCounter, 1, source, name, i, 4);
       slimes.push(slime);
       intervalSlimes.push(slime.name + slime.id);
       slime.display();
