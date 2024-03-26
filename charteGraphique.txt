@@ -1,0 +1,15 @@
+ennemie : 
+    image prise sur : https://opengameart.org/content/animated-slime
+
+Coeur : 
+    image faite sur piskel
+
+terrain :
+    border: 4px solid black;
+    background-Color: grey;
+    width: 50px;
+
+tourelle(carre rouge):
+    background-color: red;
+    width: 40px
+    height: 40px
